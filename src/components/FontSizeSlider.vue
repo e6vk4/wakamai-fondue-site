@@ -10,7 +10,7 @@
 			:value="fontSize"
 			@input="updateFontSize"
 		/>
-		<!-- <span class="font-size-value" aria-live="polite">{{ fontSize }}px</span> -->
+		<span class="font-size-value" aria-live="polite">{{ fontSize }}px</span>
 	</div>
 </template>
 
