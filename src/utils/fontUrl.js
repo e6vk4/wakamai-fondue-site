@@ -294,6 +294,7 @@ async function fetchGoogleFontMeta(request, apiKey) {
 		);
 	}
 
+	const isVariable = item.axes?.length > 0;
 	const { key, exact } = chooseVariant(item.files, request);
 	const fileUrl = new URL(item.files[key]);
 	// Older API responses used http, which browsers block fetching from an https page
@@ -305,8 +306,11 @@ async function fetchGoogleFontMeta(request, apiKey) {
 	}
 
 	const ext = fileUrl.pathname.match(FONT_EXT)?.[0] ?? ".ttf";
-	let note = `Loaded ${request.family} (${key}) from Google Fonts.`;
-	if (!exact && request.weight !== 400) {
+	let note = isVariable
+		? `Loaded ${request.family} Variable Font from Google Fonts.`
+		: `Loaded ${request.family} (${key}) from Google Fonts.`;
+
+	if (!isVariable && !exact && request.weight !== 400) {
 		note += ` Weight ${request.weight} isn't available for this family, so ${key} was used instead.`;
 	}
 	if (request.multipleFamilies) {
