@@ -12,6 +12,7 @@
 			:disabled="loading"
 			@keydown.enter.prevent="loadFromUrl"
 		/>
+		<p v-if="loading" class="urlnote">Loading...</p>
 		<p v-if="urlNote" class="urlnote" role="status">{{ urlNote }}</p>
 		<div class="errormessage" :class="{ show: !!urlError }" role="alert">
 			<strong>{{ urlError }}</strong>
@@ -94,7 +95,7 @@ export default {
 }
 
 .urlnote {
-	margin: 0;
+	margin-top: 1.25rem;
 	text-align: center;
 	font-size: 0.9em;
 }
