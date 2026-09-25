@@ -30,6 +30,7 @@
 						$emit('localFontsPermissionChange', $event)
 					"
 				/>
+				<FontURL @getFont="$emit('getFont', $event)" />
 				<div class="errormessage" :class="{ show: error }">
 					<strong>Oops! I couldn't handle that file.</strong>
 					<p v-if="localFontError">
@@ -48,10 +49,12 @@
 
 <script>
 import LocalFontPicker from "./LocalFontPicker.vue";
+import FontURL from "./FontURL.vue";
 
 export default {
 	components: {
 		LocalFontPicker,
+		FontURL,
 	},
 	props: [
 		"error",
@@ -128,7 +131,8 @@ export default {
 	--direction: reverse;
 }
 
-.upload input {
+/* scoped to the native file input specifically, so it doesn't hide the URL input */
+.upload input[type="file"] {
 	position: absolute;
 	width: 0;
 	height: 0;
