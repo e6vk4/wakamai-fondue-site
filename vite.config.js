@@ -31,6 +31,7 @@ const manualChunksConfig = {
 
 export default defineConfig({
 	base: "/",
+	envDir: path.resolve(__dirname),
 	build: {
 		assetsDir: "js",
 		emptyOutDir: true,
