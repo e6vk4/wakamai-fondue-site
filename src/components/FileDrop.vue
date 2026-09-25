@@ -197,26 +197,6 @@ export default {
 	transform: scale(1.1);
 }
 
-.errormessage {
-	pointer-events: none;
-	margin-top: 1.25rem;
-	color: var(--red);
-	opacity: 0;
-	text-align: center;
-	position: relative;
-	z-index: 1;
-}
-
-.errormessage strong {
-	display: block;
-	margin-bottom: 0.25em;
-}
-
-.errormessage.show {
-	pointer-events: auto;
-	opacity: 1;
-}
-
 @keyframes weeee {
 	to {
 		transform: rotate(-1turn);
