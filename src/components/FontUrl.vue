@@ -12,7 +12,7 @@
 			:disabled="loading"
 			@keydown.enter.prevent="loadFromUrl"
 		/>
-		<p v-if="loading" class="urlnote">Loading...</p>
+		<p v-if="loading" class="urlloader">Loading...</p>
 		<p v-if="urlNote" class="urlnote" role="status">{{ urlNote }}</p>
 	</div>
 </template>
@@ -106,9 +106,19 @@ export default {
 	background: var(--light-grey);
 }
 
+.urlloader,
 .urlnote {
 	margin-top: 1.25rem;
 	text-align: center;
-	font-size: 0.9em;
+	position: relative;
+	z-index: 1;
+	font-size: 0.85rem;
+	max-width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.urlnote {
+	color: var(--green);
 }
 </style>
