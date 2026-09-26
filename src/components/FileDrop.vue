@@ -30,11 +30,17 @@
 				<FontURL
 					ref="fontUrlInput"
 					v-model:url-error="urlErrorMessage"
-					@getFont="$emit('getFont', $event)"
+					v-model:loading="urlLoading"
+					@getFont="handleUrlSuccess"
 				/>
 				<div
 					class="errormessage"
-					:class="{ show: error || urlErrorMessage }"
+					:class="{
+						show:
+							((error && !suppressFileError) ||
+								urlErrorMessage) &&
+							!urlLoading,
+					}"
 				>
 					<strong
 						>Oops! I couldn't handle that
@@ -61,7 +67,11 @@ import FontURL from "./FontUrl.vue";
 
 export default {
 	data() {
-		return { urlErrorMessage: "" };
+		return {
+			urlErrorMessage: "",
+			urlLoading: false,
+			suppressFileError: false,
+		};
 	},
 	components: {
 		LocalFontPicker,
@@ -80,17 +90,25 @@ export default {
 		"localFontsPermissionChange",
 	],
 	methods: {
-		handleFileInput(event) {
+		resetForNewFileAttempt() {
+			this.suppressFileError = false;
 			this.$refs.fontUrlInput?.clear();
+		},
+		handleFileInput(event) {
+			this.resetForNewFileAttempt();
 			this.$emit("getFont", event);
 		},
 		handleExampleFont(name) {
-			this.$refs.fontUrlInput?.clear();
+			this.resetForNewFileAttempt();
 			this.$emit("getExampleFont", name);
 		},
 		handleLocalFont(event) {
-			this.$refs.fontUrlInput?.clear();
+			this.resetForNewFileAttempt();
 			this.$emit("loadLocalFont", event);
+		},
+		handleUrlSuccess(event) {
+			this.suppressFileError = true;
+			this.$emit("getFont", event);
 		},
 	},
 };

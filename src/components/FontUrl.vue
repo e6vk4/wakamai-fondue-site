@@ -22,9 +22,14 @@ import { fetchFontFile, FontUrlError } from "../utils/fontUrl";
 
 export default {
 	props: { urlError: { type: String, default: "" } },
-	emits: ["getFont", "update:urlError"],
+	emits: ["getFont", "update:urlError", "update:loading"],
 	data() {
 		return { fontUrl: "", loading: false, urlNote: "" };
+	},
+	watch: {
+		loading(value) {
+			this.$emit("update:loading", value);
+		},
 	},
 	// Don't let a slow download outlive the component
 	beforeUnmount() {
