@@ -49,7 +49,7 @@
 
 <script>
 import LocalFontPicker from "./LocalFontPicker.vue";
-import FontURL from "./FontURL.vue";
+import FontURL from "./FontUrl.vue";
 
 export default {
 	components: {
