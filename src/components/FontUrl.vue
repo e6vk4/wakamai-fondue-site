@@ -12,7 +12,7 @@
 			:disabled="loading"
 			@keydown.enter.prevent="loadFromUrl"
 		/>
-		<p v-if="loading" class="urlloader">Loading...</p>
+		<p v-if="loading" class="urlloader" role="status">Loading...</p>
 		<p v-if="urlNote" class="urlnote" role="status">{{ urlNote }}</p>
 	</div>
 </template>

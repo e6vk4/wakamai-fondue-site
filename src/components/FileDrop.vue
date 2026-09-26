@@ -41,6 +41,7 @@
 								urlErrorMessage) &&
 							!urlLoading,
 					}"
+					role="alert"
 				>
 					<strong
 						>Oops! I couldn't handle that
