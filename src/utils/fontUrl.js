@@ -452,7 +452,7 @@ export async function fetchFontFile(input, signal, { apiKey } = {}) {
 			target = { url: url.href, name: fileNameFrom(url), note: "" };
 		} else {
 			throw new FontUrlError(
-				"Use a Google Fonts link or a direct link to a .woff2, .woff, .ttf or .otf file."
+				"Use a Google Fonts link or a direct link to a \n .woff2, .woff, .ttf or .otf file."
 			);
 		}
 

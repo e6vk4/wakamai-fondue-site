@@ -14,9 +14,6 @@
 		/>
 		<p v-if="loading" class="urlnote">Loading...</p>
 		<p v-if="urlNote" class="urlnote" role="status">{{ urlNote }}</p>
-		<div class="errormessage" :class="{ show: !!urlError }" role="alert">
-			<strong>{{ urlError }}</strong>
-		</div>
 	</div>
 </template>
 
@@ -24,9 +21,10 @@
 import { fetchFontFile, FontUrlError } from "../utils/fontUrl";
 
 export default {
-	emits: ["getFont"],
+	props: { urlError: { type: String, default: "" } },
+	emits: ["getFont", "update:urlError"],
 	data() {
-		return { fontUrl: "", loading: false, urlError: "", urlNote: "" };
+		return { fontUrl: "", loading: false, urlNote: "" };
 	},
 	// Don't let a slow download outlive the component
 	beforeUnmount() {
@@ -36,15 +34,15 @@ export default {
 		clear() {
 			this.controller?.abort(); // cancel a stale in-flight fetch so it can't overwrite a font loaded another way
 			this.fontUrl = "";
-			this.urlError = "";
 			this.urlNote = "";
 			this.loading = false;
+			this.$emit("update:urlError", "");
 		},
 		async loadFromUrl() {
 			if (!this.fontUrl || this.loading) return;
 
 			this.loading = true;
-			this.urlError = "";
+			this.$emit("update:urlError", "");
 			this.urlNote = "";
 			this.controller = new AbortController();
 
@@ -64,10 +62,12 @@ export default {
 				});
 			} catch (e) {
 				if (e.name === "AbortError") return; // component was torn down
-				this.urlError =
+				this.$emit(
+					"update:urlError",
 					e instanceof FontUrlError
 						? e.message
-						: "Something went wrong loading that URL.";
+						: "Something went wrong loading that URL."
+				);
 			} finally {
 				this.loading = false;
 			}

@@ -29,11 +29,19 @@
 				/>
 				<FontURL
 					ref="fontUrlInput"
+					v-model:url-error="urlErrorMessage"
 					@getFont="$emit('getFont', $event)"
 				/>
-				<div class="errormessage" :class="{ show: error }">
-					<strong>Oops! I couldn't handle that file.</strong>
-					<p v-if="localFontError">
+				<div
+					class="errormessage"
+					:class="{ show: error || urlErrorMessage }"
+				>
+					<strong
+						>Oops! I couldn't handle that
+						{{ urlErrorMessage ? "url" : "file" }}.</strong
+					>
+					<p v-if="urlErrorMessage">{{ urlErrorMessage }}</p>
+					<p v-else-if="localFontError">
 						⚠️ This is likely not a Wakamai Fondue error!
 						<br />
 						Local fonts can fail in many ways.
@@ -52,6 +60,9 @@ import LocalFontPicker from "./LocalFontPicker.vue";
 import FontURL from "./FontUrl.vue";
 
 export default {
+	data() {
+		return { urlErrorMessage: "" };
+	},
 	components: {
 		LocalFontPicker,
 		FontURL,
@@ -209,6 +220,31 @@ export default {
 
 .dragging .upload {
 	transform: scale(1.1);
+}
+
+.errormessage {
+	pointer-events: none;
+	margin-top: 1.25rem;
+	color: var(--red);
+	opacity: 0;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	font-size: 0.85rem;
+}
+
+.errormessage strong {
+	display: block;
+	margin-bottom: 0.25em;
+}
+
+.errormessage p {
+	white-space: pre-line;
+}
+
+.errormessage.show {
+	pointer-events: auto;
+	opacity: 1;
 }
 
 @keyframes weeee {
