@@ -407,7 +407,7 @@ function toFontUrlError(e) {
 	// fetch reports CORS, DNS and offline failures all as the same TypeError,
 	// there's no way to tell them apart from here
 	return new FontUrlError(
-		"This font URL doesn't allow cross-origin requests."
+		"Couldn't load the font from that URL — check the link and that the server allows cross-origin requests."
 	);
 }
 
