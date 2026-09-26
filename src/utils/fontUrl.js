@@ -407,7 +407,7 @@ function toFontUrlError(e) {
 	// fetch reports CORS, DNS and offline failures all as the same TypeError,
 	// there's no way to tell them apart from here
 	return new FontUrlError(
-		"Couldn't load the font from that URL — check the link and that the server allows cross-origin requests."
+		"Check the link and that the server allows \n cross-origin requests."
 	);
 }
 
@@ -445,9 +445,7 @@ export async function fetchFontFile(input, signal, { apiKey } = {}) {
 		if (google) {
 			target = await lookupGoogleFile(google, apiKey);
 		} else if (isGoogleFontsHost(url)) {
-			throw new FontUrlError(
-				"That Google Fonts link isn't in a format I recognize."
-			);
+			throw new FontUrlError("Check the Google Fonts link format.");
 		} else if (FONT_EXT.test(url.pathname)) {
 			target = { url: url.href, name: fileNameFrom(url), note: "" };
 		} else {
