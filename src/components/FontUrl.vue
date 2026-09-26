@@ -33,6 +33,13 @@ export default {
 		this.controller?.abort();
 	},
 	methods: {
+		clear() {
+			this.controller?.abort(); // cancel a stale in-flight fetch so it can't overwrite a font loaded another way
+			this.fontUrl = "";
+			this.urlError = "";
+			this.urlNote = "";
+			this.loading = false;
+		},
 		async loadFromUrl() {
 			if (!this.fontUrl || this.loading) return;
 

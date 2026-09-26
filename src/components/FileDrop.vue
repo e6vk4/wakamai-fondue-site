@@ -6,7 +6,7 @@
 				type="file"
 				name="file"
 				accept=".woff,.woff2,.ttf,.otf"
-				@change="$emit('getFont', $event)"
+				@change="handleFileInput"
 			/>
 			<div class="info">
 				<strong class="drop">Drop a font!</strong>
@@ -14,10 +14,7 @@
 					type="button"
 					class="button on"
 					@click="
-						$emit(
-							'getExampleFont',
-							'NaNSuccessTitling-Variable.woff2'
-						)
+						handleExampleFont('NaNSuccessTitling-Variable.woff2')
 					"
 				>
 					Try with NaN Success Titling
@@ -25,12 +22,15 @@
 				<LocalFontPicker
 					:supported="localFontsSupported"
 					:permission="localFontsPermission"
-					@select="$emit('loadLocalFont', $event)"
+					@select="handleLocalFont"
 					@permissionChange="
 						$emit('localFontsPermissionChange', $event)
 					"
 				/>
-				<FontURL @getFont="$emit('getFont', $event)" />
+				<FontURL
+					ref="fontUrlInput"
+					@getFont="$emit('getFont', $event)"
+				/>
 				<div class="errormessage" :class="{ show: error }">
 					<strong>Oops! I couldn't handle that file.</strong>
 					<p v-if="localFontError">
@@ -68,6 +68,20 @@ export default {
 		"loadLocalFont",
 		"localFontsPermissionChange",
 	],
+	methods: {
+		handleFileInput(event) {
+			this.$refs.fontUrlInput?.clear();
+			this.$emit("getFont", event);
+		},
+		handleExampleFont(name) {
+			this.$refs.fontUrlInput?.clear();
+			this.$emit("getExampleFont", name);
+		},
+		handleLocalFont(event) {
+			this.$refs.fontUrlInput?.clear();
+			this.$emit("loadLocalFont", event);
+		},
+	},
 };
 </script>
 
