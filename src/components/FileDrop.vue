@@ -89,15 +89,10 @@ export default {
 	],
 	computed: {
 		showErrorMessage() {
-			// Error banner should only show once we know which error is current:
-			// a leftover file error is muted after a URL success (suppressFileError),
-			// and either error is hidden while a new URL fetch is in flight (urlLoading)
-			// so we don't flash a stale message before the new result comes in.
-			return (
-				((this.error && !this.suppressFileError) ||
-					this.urlErrorMessage) &&
-				!this.urlLoading
-			);
+			// suppressFileError hides a stale file error after a successful URL load
+			const hasVisibleFileError = this.error && !this.suppressFileError;
+			const hasError = hasVisibleFileError || this.urlErrorMessage;
+			return hasError && !this.urlLoading;
 		},
 	},
 	methods: {
