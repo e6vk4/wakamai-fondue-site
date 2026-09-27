@@ -36,10 +36,7 @@
 				<div
 					class="errormessage"
 					:class="{
-						show:
-							((error && !suppressFileError) ||
-								urlErrorMessage) &&
-							!urlLoading,
+						show: showErrorMessage,
 					}"
 					role="alert"
 				>
@@ -90,6 +87,19 @@ export default {
 		"loadLocalFont",
 		"localFontsPermissionChange",
 	],
+	computed: {
+		showErrorMessage() {
+			// Error banner should only show once we know which error is current:
+			// a leftover file error is muted after a URL success (suppressFileError),
+			// and either error is hidden while a new URL fetch is in flight (urlLoading)
+			// so we don't flash a stale message before the new result comes in.
+			return (
+				((this.error && !this.suppressFileError) ||
+					this.urlErrorMessage) &&
+				!this.urlLoading
+			);
+		},
+	},
 	methods: {
 		resetForNewFileAttempt() {
 			this.suppressFileError = false;
